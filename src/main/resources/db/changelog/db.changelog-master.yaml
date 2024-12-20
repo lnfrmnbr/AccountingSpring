@@ -1,0 +1,152 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: dombrv
+      changes:
+        - createTable:
+            tableName: employees
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: father_name
+                  type: VARCHAR(20)
+              - column:
+                  name: last_name
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: VARCHAR(20)
+              - column:
+                  name: salary
+                  type: INT
+
+  - changeSet:
+      id: 2
+      author: dombrv
+      changes:
+        - createTable:
+            tableName: departments
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: dombrv
+      changes:
+        - createTable:
+            tableName: projects
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cost
+                  type: INT
+              - column:
+                  name: department_id
+                  type: INT
+              - column:
+                  name: date_beg
+                  type: DATE
+              - column:
+                  name: date_end
+                  type: DATE
+              - column:
+                  name: date_end_real
+                  type: DATE
+                  constraints:
+                    nullable: true
+            foreignKeys:
+              - foreignKey:
+                  name: fk_projects_department_id
+                  referencedTableName: departments
+                  referencedColumnNames: id
+                  columnNames: department_id
+                  onDelete: CASCADE
+
+  - changeSet:
+      id: 4
+      author: dombrv
+      changes:
+        - createTable:
+            tableName: departments_employees
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: department_id
+                  type: INT
+              - column:
+                  name: employee_id
+                  type: INT
+            foreignKeys:
+              - foreignKey:
+                  name: fk_departments_employees_department_id
+                  referencedTableName: departments
+                  referencedColumnNames: id
+                  columnNames: department_id
+                  onDelete: CASCADE
+              - foreignKey:
+                  name: fk_departments_employees_employee_id
+                  referencedTableName: employees
+                  referencedColumnNames: id
+                  columnNames: employee_id
+                  onDelete: CASCADE
+  - changeSet:
+      id: 5
+      author: dombrv
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: login
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: admin
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+
